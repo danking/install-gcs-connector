@@ -46,12 +46,12 @@ def parse_connector_version(version):
 
 
 def get_gcs_connector_url():
-    """Get the URL of the jar file for the latest version of the Hadoop 2 connector."""
+    """Get the URL of the jar file for the latest version of the Hadoop 3 connector."""
     with urllib.request.urlopen("https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/maven-metadata.xml") as f:
         metadata = f.read().decode("utf-8")
 
     versions = [el.text for el in ET.fromstring(metadata).findall("./versioning/versions/version")]
-    hadoop2_versions = [version for version in versions if version.startswith("hadoop2-")]
+    hadoop2_versions = [version for version in versions if version.startswith("hadoop3-")]
     latest_version = sorted(hadoop2_versions, key=parse_connector_version)[-1]
 
     return f"https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/{latest_version}/gcs-connector-{latest_version}-shaded.jar"
